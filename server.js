@@ -97,9 +97,6 @@ const authMiddleware = (req, res, next) => {
 // Protect the admin.html file specifically before serving static files
 app.use('/admin.html', authMiddleware);
 
-// --- Serve Static Frontend Files ---
-app.use(express.static(path.join(__dirname)));
-
 // Nodemailer Transporter Setup
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST ? process.env.SMTP_HOST.trim() : '',
@@ -347,6 +344,9 @@ app.get('/api/messages/:submissionId', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch messages.' });
     }
 });
+
+// --- Serve Static Frontend Files (Moved after API routes to prevent conflicts) ---
+app.use(express.static(path.join(__dirname)));
 
 // Redirect favicon.ico requests to the new SVG favicon
 app.get('/favicon.ico', (req, res) => {

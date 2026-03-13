@@ -198,8 +198,15 @@ async function handleSubmit(e) {
             status.className = 'form-status-success'; // Use the new success class
             form.reset();
         } else {
-            const errorData = await response.json();
-            status.innerHTML = `Error: ${errorData.message || 'Could not send message.'}`;
+            let errorMessage = 'Could not send message.';
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.message || errorMessage;
+            } catch (e) {
+                // If response is not JSON (e.g. 404/500 HTML page), fall back to text or status
+                errorMessage = `Server Error (${response.status})`;
+            }
+            status.innerHTML = `Error: ${errorMessage}`;
             status.className = 'form-status-error'; // Use the new error class
         }
     } catch (error) {
