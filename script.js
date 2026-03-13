@@ -162,64 +162,6 @@ if (document.title.includes('Tech And James Consult')) {
     document.title = document.title.replace('Tech And James Consult', 'Tech & James Consult');
 }
 
-// Form submission
-var form = document.getElementById("consultationForm");
-
-async function handleSubmit(e) {
-    e.preventDefault();
-    const status = document.getElementById("form-status");
-    const form = e.target;
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalBtnHtml = submitBtn.innerHTML;
-
-    // Disable button and show loading state to prevent multiple clicks
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span>Submitting...</span><i class="fas fa-spinner fa-spin"></i>';
-
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    
-    // Use a relative URL. The browser will automatically use the current host and port.
-    // This is more robust and works in both development and production.
-    const endpoint = '/app-api/submit';
-
-    try {
-        status.innerHTML = ''; // Clear previous status messages
-        const response = await fetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-
-        if (response.ok) {
-            status.innerHTML = "Thanks for your inquiry! We will be in touch shortly.";
-            status.className = 'form-status-success'; // Use the new success class
-            form.reset();
-        } else {
-            let errorMessage = 'Could not send message.';
-            try {
-                const errorData = await response.json();
-                errorMessage = errorData.message || errorMessage;
-            } catch (e) {
-                // If response is not JSON (e.g. 404/500 HTML page), fall back to text or status
-                errorMessage = `Server Error (${response.status})`;
-            }
-            status.innerHTML = `Error: ${errorMessage}`;
-            status.className = 'form-status-error'; // Use the new error class
-        }
-    } catch (error) {
-        status.innerHTML = "Oops! There was a network problem. Please try again.";
-        status.className = 'form-status-error'; // Use the new error class
-    } finally {
-        // Re-enable the button and restore its original content
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnHtml;
-    }
-}
-form.addEventListener("submit", handleSubmit)
-
 // Initialize particles on load
 window.addEventListener('load', function() {
     createParticles();
