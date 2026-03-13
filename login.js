@@ -11,7 +11,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     btn.disabled = true;
 
     try {
-        const response = await fetch('/api/login', {
+        const response = await fetch('/app-api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
