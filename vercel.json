@@ -4,6 +4,17 @@
     {
       "source": "/api/(.*)",
       "destination": "/server.js"
+    },
+    {
+      "source": "/app-api/(.*)",
+      "destination": "/server.js"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/favicon.ico",
+      "destination": "/favicon.svg",
+      "statusCode": 200
     }
   ]
 }
