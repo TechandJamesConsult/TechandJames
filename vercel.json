@@ -21,12 +21,5 @@
       "source": "/login",
       "destination": "/api/index.js"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/favicon.ico",
-      "destination": "/favicon.svg",
-      "statusCode": 200
-    }
   ]
 }
