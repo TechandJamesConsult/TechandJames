@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Submissions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Fonts */
+        /* Lato */
+        @font-face {
+          font-family: 'Lato';
+          font-style: normal;
+          font-weight: 300;
+          font-display: swap;
+          src: url(https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh7USSwiPGQ.woff2) format('woff2');
+        }
+        @font-face {
+          font-family: 'Lato';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url(https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHjx4wXg.woff2) format('woff2');
+        }
+        @font-face {
+          font-family: 'Lato';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url(https://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh6UVSwiPGQ.woff2) format('woff2');
+        }
+
+        /* Merriweather */
+        @font-face {
+          font-family: 'Merriweather';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url(https://fonts.gstatic.com/s/merriweather/v30/u-4n0qyriQwlOrhSvowK_l52_wfz.woff2) format('woff2');
+        }
+        @font-face {
+          font-family: 'Merriweather';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url(https://fonts.gstatic.com/s/merriweather/v30/u-4l0qyriQwlOrhSvowK_l5-eR7lXcf_.woff2) format('woff2');
+        }
+        @font-face {
+          font-family: 'Merriweather';
+          font-style: normal;
+          font-weight: 900;
+          font-display: swap;
+          src: url(https://fonts.gstatic.com/s/merriweather/v30/u-4l0qyriQwlOrhSvowK_l5-YTvlXcf_.woff2) format('woff2');
+        }
+
+        /* Admin CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #f8f9fa; /* Changed to a light off-white background */
+            color: #212529; /* Changed to dark text for readability */
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff; /* White background for the main container */
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: #00AEEF; /* Light Blue from main site */
+            font-size: 2.5rem;
+        }
+
+        .container > p {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: #6c757d; /* Darker secondary text color */
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-controls input,
+        .filter-controls select {
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            background: #f8f9fa;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .filter-controls input {
+            flex-grow: 1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        thead th {
+            color: #00AEEF;
+            font-weight: 600;
+        }
+
+        td {
+            color: #495057; /* Darker text for table data */
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 174, 239, 0.05);
+        }
+
+        /* Combined styles for action buttons */
+        .view-btn {
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn {
+            background: #6c757d;
+            color: white;
+        }
+        .view-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #ffffff; /* White modal background */
+            margin: 5% auto;
+            padding: 0; /* Remove padding to allow for a distinct header */
+            width: 80%;
+            max-width: 800px; /* Make the modal wider */
+            border-radius: 15px; /* Larger radius */
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden; /* To contain the border-radius */
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            padding: 1.5rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            background: #f8f9fa;
+            color: #212529;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        /* Thread Modal Styles */
+        .thread-messages {
+            max-height: 50vh; /* Allow more space for messages */
+            overflow-y: auto;
+            background: #f1f3f5;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .message-bubble {
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+
+        .message-bubble.user {
+            background: #e9ecef;
+            color: #212529;
+            border-bottom-left-radius: 2px;
+            margin-right: auto;
+        }
+
+        .message-bubble.admin {
+            background: linear-gradient(135deg, #003B73 0%, #00AEEF 100%);
+            color: white;
+            border-bottom-right-radius: 2px;
+            margin-left: auto;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+        }
+        .message-bubble .sender-info {
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            opacity: 0.8;
+        }
+
+        #threadReplyForm {
+            padding: 1.5rem 2rem;
+            background: #f8f9fa;
+        }
+
+        #threadReplyForm textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        #threadReplyForm textarea:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Consultation Submissions</h1>
+        <a href="/api/logout" class="logout-btn">Logout</a>
+        <p>View and reply to messages from your website's contact form.</p>
+
+        <div class="filter-controls">
+            <input type="search" id="searchInput" placeholder="Search by name, email, or phone...">
+            <select id="serviceFilter">
+                <option value="">Filter by Service</option>
+                <option value="study">Study Abroad</option>
+                <option value="work">Work Visa</option>
+                <option value="travel">Travel Consultation</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <table id="submissionsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Service</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- View Thread Modal -->
+    <div id="threadModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Conversation with <span id="threadClientName"></span></h2>
+            <div id="threadMessages" class="thread-messages">
+                <!-- Messages will be loaded here -->
+            </div>
+            <form id="threadReplyForm">
+                <input type="hidden" id="threadSubmissionId">
+                <textarea id="threadReplyMessage" placeholder="Type your reply..." rows="5" required></textarea>
+                <button type="submit" id="sendThreadReplyBtn">Send Reply</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

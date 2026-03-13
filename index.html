@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech & James Consult </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* New Color Scheme */
+        :root {
+            --primary: #2B5D8C; /* Logo Dark Blue - Lightened */
+            --primary-dark: #1A3C5E; /* Darker version - Lightened */
+            --primary-light: #4A7BA6;
+            --secondary: #4DC3F2; /* Logo Light Blue - Lightened */
+            --accent: #7CD5F9; /* Lighter accent blue - Lightened */
+            --dark: #152C4A; /* Very Dark Navy - Lightened */
+            --light: #F8F9FA;
+            --gray: #64748B;
+            --success: #10B981;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); /* Logo Dark Blue to Light Blue */
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #64d7ff 100%); /* Light blue gradient */
+            --gradient-dark: linear-gradient(135deg, var(--dark) 0%, #0a2f6c 100%); /* Dark navy gradient */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.3);
+            --border-radius: 16px;
+            --border-radius-lg: 24px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeAmM.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hjp-Ek-_EeAmM.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 700;
+            src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hjp-Ek-_EeAmM.woff2') format('woff2');
+        }
+
+        /* Geometric Watermark */
+        .geometric-watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle at 10% 20%, var(--accent) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, var(--secondary) 0%, transparent 20%),
+                linear-gradient(45deg, transparent 49%, var(--primary) 49% 51%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, var(--secondary) 49% 51%, transparent 51%);
+            background-size: 300px 300px, 300px 300px, 60px 60px, 60px 60px;
+            background-position: 0 0, 100% 100%, 0 0, 0 0;
+            animation: watermarkShift 30s linear infinite;
+        }
+
+        @keyframes watermarkShift {
+            0% { background-position: 0 0, 100% 100%, 0 0, 0 0; }
+            100% { background-position: 300px 300px, -200px -200px, 60px 60px, 60px 60px; }
+        }
+
+        /* Image Watermark */
+        .watermark-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2206/2206368.png'); /* Globe/Travel Icon */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.03;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Hero Slideshow */
+        .hero-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: crossfade 20s infinite;
+        }
+
+        @keyframes crossfade {
+            0% { opacity: 0; transform: scale(1.1); }
+            5% { opacity: 1; }
+            25% { opacity: 1; transform: scale(1); }
+            30% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Modern Header */
+        .modern-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.2rem 5%;
+            background: linear-gradient(90deg, #e6f3ff 0%, #ffffff 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .modern-header.scrolled {
+            padding: 0.8rem 5%;
+            background: linear-gradient(90deg, #dbeafe 0%, #ffffff 100%);
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Modern Logo */
+        .modern-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-main {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .logo-sub {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        .modern-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(15, 76, 117, 0.2);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 76, 117, 0.3);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Modern Hero */
+        .modern-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 5% 80px;
+            position: relative;
+            background: rgba(248, 250, 252, 0.85); /* Semi-transparent for slideshow */
+            overflow: hidden;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero-title span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .world-map {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* About Section */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1000px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.02);
+        }
+        
+        .about-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .about-stats .stat-item h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .map-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--secondary);
+            border-radius: 50%;
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+        }
+
+        /* Modern Cards */
+        .modern-section {
+            padding: 80px 5%;
+            background: var(--light);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-subtitle {
+            display: inline-block;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .section-description {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: width 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            width: 8px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--light) 0%, #EFF6FF 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-link:hover {
+            color: var(--secondary);
+            gap: 1rem;
+        }
+
+        /* Process Timeline */
+        .process-wrapper {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .process-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 4px solid transparent;
+        }
+
+        .process-card:hover {
+            transform: translateY(-10px);
+            border-bottom-color: var(--secondary);
+        }
+
+        .process-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(15, 76, 117, 0.1);
+            margin-bottom: 1rem;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .process-card:hover .process-number {
+            color: rgba(77, 195, 242, 0.2);
+        }
+
+        .process-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .process-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1024px) {
+            .process-wrapper {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .process-wrapper {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .process-card {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 1.5rem;
+                text-align: left;
+            }
+
+            .process-number {
+                font-size: 2.5rem;
+                margin-bottom: 0;
+                min-width: 50px;
+            }
+            
+            .process-card:hover {
+                transform: translateX(5px);
+            }
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(15, 76, 117, 0.1);
+        }
+
+        .testimonial-rating {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-content {
+            color: var(--gray);
+            font-style: italic;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        /* Contact Form */
+        .contact-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 80px 5%;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-details {
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .modern-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .modern-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .modern-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Footer */
+        .modern-footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            width: 200px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-cta {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .footer-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 76, 117, 0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.8;
+        }
+
+        .footer-container-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .hero-description {
+                margin: 0 auto 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .modern-nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 2rem;
+                box-shadow: var(--shadow);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                flex-direction: column;
+                gap: 1.5rem;
+                max-height: calc(100vh - 80px);
+                overflow-y: auto;
+            }
+            
+            .modern-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1.5rem;
+                width: 100%;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container-flex {
+                justify-content: center;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .mobile-menu-content {
+                display: block;
+                width: 100%;
+                padding-top: 1.5rem;
+                border-top: 1px solid rgba(0,0,0,0.1);
+                margin-top: 0.5rem;
+            }
+
+            .mobile-menu-content img {
+                width: 100%;
+                height: 160px;
+                object-fit: cover;
+                border-radius: 12px;
+                margin-bottom: 1rem;
+                box-shadow: var(--shadow);
+            }
+
+            .mobile-menu-content h3 {
+                font-size: 1.2rem;
+                margin: 0.5rem 0;
+                color: var(--dark);
+                font-weight: 700;
+            }
+
+            .mobile-menu-content p {
+                font-size: 0.9rem;
+                color: var(--gray);
+                margin-bottom: 1rem;
+                line-height: 1.5;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .service-card,
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
+        .mobile-menu-content {
+            display: none;
+        }
+
+        /* Custom Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .modal-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(15, 76, 117, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Geometric Watermark -->
+    <div class="geometric-watermark"></div>
+    
+    <!-- Image Watermark -->
+    <div class="watermark-image"></div>
+
+    <!-- Modern Header -->
+    <header class="modern-header">
+        <div class="header-container">
+            <a href="#" class="modern-logo">
+                <img src="logo.png" alt="Tech & James Consult" style="height: 70px;">
+                <div class="logo-text">
+                    <span class="logo-main">Tech & James</span>
+                    <span class="logo-sub">Consult</span>
+                </div>
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="modern-nav" id="modernNav">
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#process" class="nav-link">Process</a></li>
+                    <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="#contact" class="nav-cta">
+                    <i class="fas fa-paper-plane"></i> Free Consultation
+                </a>
+
+                <div class="mobile-menu-content">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" alt="Team collaborating">
+                    <span class="section-subtitle">Who We Are</span>
+                    <h3>Your Trusted Global Partner</h3>
+                    <p>At Tech & James Consult, our mission is to empower individuals to achieve their dreams of studying and working abroad. We believe that international experience is transformative, and we are dedicated to making it accessible, seamless, and successful for every client.</p>
+                    <p>Founded by a team of passionate travel and education experts, we simplify the complex journey of moving abroad. With years of firsthand experience, we provide personalized, expert guidance you can trust.</p>
+                    
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                        <div class="hero-badge" style="margin: 0; font-size: 0.75rem; padding: 0.4rem 1rem;">
+                            <i class="fas fa-check-circle"></i> Certified Experts
+                        </div>
+                        <div class="hero-badge" style="margin: 0; background: var(--gradient-primary); font-size: 0.75rem; padding: 0.4rem 1rem;">
+                            <i class="fas fa-history"></i> Since 2010
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Modern Hero Section -->
+    <section class="modern-hero" id="home">
+        <!-- Slideshow Background -->
+        <div class="hero-slideshow">
+            <div class="slide" style="background-image: url('images/hero-1.jpg'); animation-delay: 0s;"></div>
+            <div class="slide" style="background-image: url('images/hero-2.jpg'); animation-delay: 5s;"></div>
+            <div class="slide" style="background-image: url('images/hero-3.jpg'); animation-delay: 10s;"></div>
+            <div class="slide" style="background-image: url('images/hero-4.jpg'); animation-delay: 15s;"></div>
+        </div>
+
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Your Gateway to <span>Global Success</span>
+                </h1>
+                <p class="hero-description">
+                    We transform international education and career dreams into reality. 
+                    Expert guidance for study abroad, work visas, and global placements.
+                </p>
+                
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#contact" class="nav-cta" style="padding: 1rem 2.5rem;">
+                        <i class="fas fa-rocket"></i> Start Your Journey
+                    </a>
+                    <a href="#process" class="nav-cta" style="background: transparent; color: var(--primary); border: 2px solid var(--primary);">
+                        <i class="fas fa-play-circle"></i> How It Works
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section (New) -->
+    <section class="modern-section" id="about">
+        <div class="section-header">
+            <h2 class="section-title">About Tech & James Consult</h2>
+            <p class="section-description">Your trusted partner in global education and career advancement.</p>
+        </div>
+        <div class="about-container">
+            <div class="about-image" style="opacity: 1; transform: translateY(0px); transition: opacity 0.8s, transform 0.8s;">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" alt="Team collaborating on a project">
+            </div>
+            <div class="about-text" style="opacity: 1; transform: translateY(0px); transition: opacity 0.8s, transform 0.8s;">
+                <h3>Our Mission</h3>
+                <p>At Tech & James Consult, our mission is to empower individuals to achieve their dreams of studying and working abroad. We believe that international experience is transformative, and we are dedicated to making it accessible, seamless, and successful for every client.</p>
+                <h3>Our Story</h3>
+                <p>Founded by a team of passionate travel and education experts, Tech & James Consult was born from a desire to simplify the complex journey of moving abroad. With years of firsthand experience, we provide personalized, expert guidance you can trust.</p>
+                 <div class="about-stats">
+                    <div class="stat-item">
+                        <h4>1,000+</h4>
+                        <p>Successful Placements</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>50+</h4>
+                        <p>Partner Countries</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>98%</h4>
+                        <p>Client Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="modern-section" id="services">
+        <div class="section-header">
+            <span class="section-subtitle">Our Expertise</span>
+            <h2 class="section-title">Our Premium Services</h2>
+            <p class="section-description">
+                Comprehensive solutions for your international education and career goals
+            </p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Service 1 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Study Abroad Programs</h3>
+                <p>Find the perfect university and course match worldwide with our expert guidance and application support.</p>
+                <a href="#" class="service-link">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3>Work Visa Assistance</h3>
+                <p>Navigate complex visa processes with our experienced consultants for successful work placements.</p>
+                <a href="#" class="service-link">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-passport"></i>
+                </div>
+                <h3>Travel Documentation</h3>
+                <p>Complete assistance with passports, visas, and all necessary travel documentation requirements.</p>
+                <a href="#" class="service-link">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3>Accommodation Support</h3>
+                <p>Find safe and comfortable housing options in your destination country with our network of partners.</p>
+                <a href="#" class="service-link">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <h3>Language Preparation</h3>
+                <p>Language courses and cultural orientation to help you adapt quickly to your new environment.</p>
+                <a href="#" class="service-link">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h3>Post-Arrival Support</h3>
+                <p>Continuous support after you arrive to ensure smooth transition and successful integration.</p>
+                <a href="#" class="service-link">
+                    Learn More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="modern-section" id="process" style="background: #F8FAFC;">
+        <div class="section-header">
+            <span class="section-subtitle">Our Methodology</span>
+            <h2 class="section-title">The Path to Your Global Future</h2>
+            <p class="section-description">
+                A streamlined 4-step process designed for your success
+            </p>
+        </div>
+
+        <div class="process-wrapper">
+            <!-- Step 1 -->
+            <div class="process-card">
+                <div class="process-number">01</div>
+                <div>
+                    <h3>Initial Consultation</h3>
+                    <p>Comprehensive assessment of your profile, goals, and opportunities. We analyze your academic background, career aspirations, and preferences to create a personalized strategy.</p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="process-card">
+                <div class="process-number">02</div>
+                <div>
+                    <h3>Strategic Planning</h3>
+                    <p>Customized roadmap development including country selection, program matching, scholarship identification, and timeline planning for optimal outcomes.</p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="process-card">
+                <div class="process-number">03</div>
+                <div>
+                    <h3>Application Processing</h3>
+                    <p>Complete document preparation, application submission, interview coaching, and continuous follow-up with institutions and immigration authorities.</p>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="process-card">
+                <div class="process-number">04</div>
+                <div>
+                    <h3>Post-Approval Support</h3>
+                    <p>Travel arrangements, accommodation assistance, cultural orientation, and ongoing support for seamless integration into your new environment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="modern-section" id="testimonials">
+        <div class="section-header">
+            <span class="section-subtitle">Client Success</span>
+            <h2 class="section-title">Trusted by Global Achievers</h2>
+            <p class="section-description">
+                Stories from clients who transformed their lives with our guidance
+            </p>
+        </div>
+
+        <div class="testimonials-grid">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-content">
+                    "Tech & James Consult made my dream of studying in Canada a reality. Their attention to detail and constant support were incredible. I'm now pursuing my master's at University of Toronto!"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop" alt="Emily Koranteng">
+                    </div>
+                    <div>
+                        <h4>Emily Koranteng</h4>
+                        <p>Master's Student, Canada</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-content">
+                    "The work visa process was complex, but their team handled everything professionally. I'm now working as a software engineer in Germany with my family settled here comfortably."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?q=80&w=200&auto=format&fit=crop" alt="Michael Yorke">
+                    </div>
+                    <div>
+                        <h4>Michael Yorke</h4>
+                        <p>Software Engineer, Germany</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-content">
+                    "Outstanding service from start to finish. They helped our entire family relocate to Australia. The post-arrival support made our transition smooth and stress-free."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=200&auto=format&fit=crop" alt="Robert Mugabe">
+                    </div>
+                    <div>
+                        <h4>Robert Mugabe</h4>
+                        <p>Family Relocation, Australia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Start Your Journey Today</h2>
+                <p>Get personalized guidance from our global experts. Your international success story begins here.</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Our Headquarters</h4>
+                            <p>MPRG+6PV, Kwabenya, Ghana</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4>Call Us Directly</h4>
+                            <p>030 297 4982</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4>Working Hours</h4>
+                            <p>Monday - Friday: 8am - 5pm GMT</p>
+                            <p>Saturday: 9am - 1pm GMT</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modern-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" name="name" class="modern-input" placeholder="Full Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" name="email" class="modern-input" placeholder="Email Address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="tel" name="phone" class="modern-input" placeholder="Phone Number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <select name="service" class="modern-input" required>
+                            <option value="">Select A Service</option>
+                            <option value="study">Study Abroad</option>
+                            <option value="work">Work Visa</option>
+                            <option value="immigration">Immigration</option>
+                            <option value="family">Family Relocation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <textarea name="message" class="modern-input" rows="4" placeholder="Tell us about your goals and aspirations..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Request Free Consultation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="modern-footer">
+        <div class="footer-container-flex">
+            <!-- Left: Logo -->
+            <div>
+                <a href="#" class="modern-logo" style="color: white;">
+                    <img src="logo.png" alt="Tech & James Consult" style="height: 70px;">
+                    <div class="logo-text">
+                        <span class="logo-main" style="color: white;">Tech & James</span>
+                        <span class="logo-sub" style="color: var(--accent);">Consult</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Middle: Copyright & Info -->
+            <div style="text-align: center; opacity: 0.9;">
+                <p>&copy; 2024 Tech & James Consult. All rights reserved.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">MPRG+6PV, Kwabenya | 030 297 4982 | info@techandjamesconsult.com</p>
+            </div>
+            
+            <!-- Right: Social Media -->
+            <div style="display: flex; gap: 1rem;">
+                <a href="#" class="social-icon">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 style="margin-bottom: 0.5rem; color: var(--dark);">Submission Successful!</h3>
+            <p style="color: var(--gray); margin-bottom: 1.5rem;">Thank you for your interest! We will contact you within 24 hours.</p>
+            <button class="modal-btn" id="closeModalBtn">Great, thanks!</button>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Navigation Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const modernNav = document.getElementById('modernNav');
+        
+        mobileToggle.addEventListener('click', () => {
+            modernNav.classList.toggle('active');
+            mobileToggle.innerHTML = modernNav.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.modern-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalBtnContent = submitBtn.innerHTML;
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showModal();
+                    form.reset();
+                } else {
+                    alert(`Error: ${result.message || 'Something went wrong. Please try again.'}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again later.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (modernNav.classList.contains('active')) {
+                        modernNav.classList.remove('active');
+                        mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+        
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Observe process steps
+        document.querySelectorAll('.process-card').forEach(step => {
+            step.style.opacity = '0';
+            step.style.transform = 'translateY(20px)';
+            step.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(step);
+        });
+        
+        // Initialize map dots animation
+        document.querySelectorAll('.map-dot').forEach((dot, index) => {
+            dot.style.animationDelay = `${index * 0.5}s`;
+        });
+
+        // Modal Functions
+        const successModal = document.getElementById('successModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        function showModal() {
+            successModal.classList.add('show');
+        }
+
+        function closeModal() {
+            successModal.classList.remove('show');
+        }
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
