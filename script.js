@@ -181,7 +181,7 @@ async function handleSubmit(e) {
     
     // Use a relative URL. The browser will automatically use the current host and port.
     // This is more robust and works in both development and production.
-    const endpoint = '/api/submit';
+    const endpoint = '/app-api/submit';
 
     try {
         status.innerHTML = ''; // Clear previous status messages

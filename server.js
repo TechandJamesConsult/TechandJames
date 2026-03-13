@@ -82,7 +82,7 @@ if (isProduction) {
         message: 'Too many requests from this IP, please try again after 15 minutes'
     });
     // Apply the rate limiting middleware to API calls
-    app.use('/api/', apiLimiter);
+    app.use('/app-api/', apiLimiter);
 }
 
 // --- Authentication Middleware (Moved Up) ---
@@ -127,7 +127,7 @@ transporter.verify((error, success) => {
 });
 
 // --- Login and Logout Routes ---
-app.post('/api/login', async (req, res) => {
+app.post('/app-api/login', async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -158,7 +158,7 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-app.get('/api/logout', (req, res) => {
+app.get('/app-api/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
             return res.status(500).send('Could not log out.');
@@ -186,7 +186,7 @@ app.get('/admin.html', authMiddleware, (req, res) => {
 
 // --- API Route to get all submissions ---
 // NOTE: For a production app, this endpoint should be protected with authentication.
-app.get('/api/submissions', authMiddleware, async (req, res) => {
+app.get('/app-api/submissions', authMiddleware, async (req, res) => {
     try {
         // Query the database to get all submissions, ordered by the newest first
         const result = await pool.query('SELECT * FROM submissions ORDER BY submitted_at DESC');
@@ -199,7 +199,7 @@ app.get('/api/submissions', authMiddleware, async (req, res) => {
 
 
 // API Route for Form Submission
-app.post('/api/submit', [
+app.post('/app-api/submit', [
     // --- Add Validation and Sanitization Rules ---
     body('name', 'Full Name is required').not().isEmpty().trim().escape(),
     body('email', 'Please include a valid email').isEmail().normalizeEmail(),
@@ -285,7 +285,7 @@ app.post('/api/submit', [
 });
 
 // --- API Route to send a reply ---
-app.post('/api/reply', authMiddleware, [
+app.post('/app-api/reply', authMiddleware, [
     body('submission_id', 'Submission ID is required').isInt(),
     body('to', 'Recipient email is required').isEmail(),
     body('message', 'Reply message cannot be empty').not().isEmpty()
@@ -331,7 +331,7 @@ app.post('/api/reply', authMiddleware, [
 });
 
 // --- API Route to get messages for a submission ---
-app.get('/api/messages/:submissionId', authMiddleware, async (req, res) => {
+app.get('/app-api/messages/:submissionId', authMiddleware, async (req, res) => {
     try {
         const { submissionId } = req.params;
         const result = await pool.query(
@@ -356,8 +356,8 @@ app.get('/favicon.ico', (req, res) => {
 // --- Catch-all route to serve index.html for any other GET request ---
 // This must be the LAST route defined so it doesn't interfere with API routes.
 // We use a regular expression to match any path that does NOT start with /api
-// Also exclude common static folders so missing files return 404 instead of index.html
-app.get(/^\/(?!api|images|css|js|webfonts|icons|assets|favicon.ico|.*\.png|.*\.jpg|.*\.html).*/, (req, res) => {
+// We updated the regex to match /app-api instead of /api
+app.get(/^\/(?!app-api|images|css|js|webfonts|icons|assets|favicon.ico|.*\.png|.*\.jpg|.*\.html).*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 

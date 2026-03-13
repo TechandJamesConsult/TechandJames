@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetch submissions and populate the table
     async function fetchSubmissions() {
         try {
-            const response = await fetch('/api/submissions');
+            const response = await fetch('/app-api/submissions');
             if (!response.ok) {
                 throw new Error('Failed to fetch submissions');
             }
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             threadModal.style.display = 'block';
 
             try {
-                const response = await fetch(`/api/messages/${submissionId}`);
+                const response = await fetch(`/app-api/messages/${submissionId}`);
                 if (!response.ok) throw new Error('Could not fetch messages.');
                 const messages = await response.json();
 
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const toEmail = threadReplyForm.dataset.clientEmail;
 
         try {
-            const response = await fetch('/api/reply', {
+            const response = await fetch('/app-api/reply', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ submission_id: submissionId, to: toEmail, message: message })
