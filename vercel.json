@@ -20,10 +20,6 @@
     {
       "source": "/login",
       "destination": "/api/index.js"
-    },
-    {
-      "source": "/login.html",
-      "destination": "/api/index.js"
     }
   ],
   "redirects": [
